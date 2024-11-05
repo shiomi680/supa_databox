@@ -3,7 +3,7 @@ import { AddToast, toast } from "./add-toast";
 import React from "react";
 
 const meta: Meta<typeof AddToast> = {
-  title: "UI/Commons/AddToast",
+  title: "ui/commons/add-toast",
   component: AddToast,
 };
 

@@ -1,6 +1,17 @@
+"use client";
 import Image from "next/image";
+import React, { useState } from "react"; // Import useState
+import { ConfirmDialog } from "@/components/features/commons/confirm_button/confirm_dialog/confirm_dialog"; // Adjust the import path as necessary
 
 export default function Home() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog
+
+  const handleOpenDialog = () => setIsDialogOpen(true);
+  const handleCloseDialog = () => setIsDialogOpen(false);
+  const handleConfirmDialog = () => {
+    console.log("Confirmed!"); // Handle confirmation logic
+    handleCloseDialog();
+  };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -107,6 +118,17 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
+        <button onClick={handleOpenDialog} className="btn-open-dialog">
+          Open Confirm Dialog
+        </button>
+
+        <ConfirmDialog
+          open={isDialogOpen}
+          onClose={handleCloseDialog}
+          onConfirm={handleConfirmDialog}
+          title="Confirm Action"
+          description="Are you sure you want to proceed?"
+        />
       </div>
     </main>
   );
