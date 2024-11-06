@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ConfirmDialog } from "./confirm_dialog"; // Adjust the import path as necessary
+import { ConfirmDialog } from "./confirm-dialog";
 import React, { useState } from "react";
 
 const meta: Meta<typeof ConfirmDialog> = {
-  title: "ConfirmDialog",
   component: ConfirmDialog,
 };
 

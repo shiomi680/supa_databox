@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button, ButtonProps } from "@/components/ui/button";
-import { ConfirmDialog } from "./confirm_dialog/confirm_dialog";
+import { ConfirmDialog } from "./confirm-dialog/confirm-dialog";
 interface ConfirmButtonProps extends Omit<ButtonProps, "onClick"> {
   onConfirm: () => void;
   title: string;
   description: string;
 }
 
-const ConfirmButton: React.FC<ConfirmButtonProps> = ({
+export const ConfirmButton: React.FC<ConfirmButtonProps> = ({
   onConfirm,
   title,
   description,
@@ -36,5 +36,3 @@ const ConfirmButton: React.FC<ConfirmButtonProps> = ({
     </>
   );
 };
-
-export default ConfirmButton;

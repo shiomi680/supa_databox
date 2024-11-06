@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react"; // Import useState
-import { ConfirmDialog } from "@/components/features/commons/confirm_button/confirm_dialog/confirm_dialog"; // Adjust the import path as necessary
+import { ConfirmDialog } from "@/components/features/commons/confirm-button/confirm-dialog/confirm-dialog"; // Adjust the import path as necessary
 
 export default function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog
