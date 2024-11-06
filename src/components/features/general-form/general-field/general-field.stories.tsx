@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { GridTextField, FieldType, FieldParam } from "./grid_text_field";
+import { GeneralField, FieldType, FieldParam } from "./general-field";
 
-const meta: Meta<typeof GridTextField> = {
-  title: "features/forms/GridTextField",
-  component: GridTextField,
+const meta: Meta<typeof GeneralField> = {
+  title: "features/forms/GeneralField",
+  component: GeneralField,
 };
 
 export default meta;
@@ -20,7 +20,7 @@ export const Default: Story = {
       title: "Example Field",
     };
 
-    return <GridTextField {...args} fieldParam={fieldParam} />;
+    return <GeneralField {...args} fieldParam={fieldParam} />;
   },
 };
 
@@ -34,7 +34,7 @@ export const SelectField: Story = {
       choices: ["Option 1", "Option 2", "Option 3"],
     };
 
-    return <GridTextField {...args} fieldParam={fieldParam} />;
+    return <GeneralField {...args} fieldParam={fieldParam} />;
   },
 };
 
@@ -48,6 +48,6 @@ export const MultiLineTextField: Story = {
       rows: 4,
     };
 
-    return <GridTextField {...args} fieldParam={fieldParam} />;
+    return <GeneralField {...args} fieldParam={fieldParam} />;
   },
 };
