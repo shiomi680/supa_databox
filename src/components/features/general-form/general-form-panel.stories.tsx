@@ -37,6 +37,13 @@ export const Default: Story = {
         title: "Multi-line Field",
         rows: 4,
       },
+      {
+        name: "selectField2",
+        type: FieldType.select,
+        gridSize: 12,
+        title: "Select Field",
+        choices: ["Option 1", "Option 2", "Option 3"],
+      },
     ],
   },
 };
