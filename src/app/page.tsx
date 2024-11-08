@@ -2,11 +2,15 @@
 import Image from "next/image";
 import React, { useState } from "react"; // Import useState
 import { ConfirmDialog } from "@/components/features/confirm-button/confirm-dialog/confirm-dialog"; // Adjust the import path as necessary
-
+import { fetchItems } from "@/crud/item";
 export default function Home() {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // State for dialog
 
-  const handleOpenDialog = () => setIsDialogOpen(true);
+  const handleOpenDialog = () => {
+    fetchItems().then((items: any) => {
+      console.log(items);
+    });
+  };
   const handleCloseDialog = () => setIsDialogOpen(false);
   const handleConfirmDialog = () => {
     console.log("Confirmed!"); // Handle confirmation logic
