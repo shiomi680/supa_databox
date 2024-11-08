@@ -1,22 +1,22 @@
-import { styled } from "@stitches/react"; // Adjusted import for Shadcn
-import { Drawer as ShadcnDrawer } from "shadcn-ui"; // Import Shadcn Drawer
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { SidebarComponent } from "@/components/layouts/menu-drawer/menu-sidebar";
+import { ItemMenu } from "./item-menu/item-menu";
+import { Item } from "@/crud/item";
+import { useEffect, useState } from "react";
+import { fetchItems } from "@/crud/item";
 
-const Drawer = styled(ShadcnDrawer, {
-  // Add your custom styles here
-});
+export function ItemPage() {
+  const [items, setItems] = useState<Item[]>([]);
+  useEffect(() => {
+    const loadItems = async () => {
+      const fetchedItems = await fetchItems();
+      setItems(fetchedItems);
+    };
 
-export function MenuBar({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState<boolean>(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+    loadItems();
+  }, []);
   return (
-    <Drawer open={open} onClose={toggleDrawer}>
-      {/* Add your toolbar and other components here */}
-      <Button onClick={toggleDrawer}>Toggle Drawer</Button>
-      {children}
-    </Drawer>
+    <SidebarComponent title="Item Page" footer="Footer">
+      <ItemMenu items={items} />
+    </SidebarComponent>
   );
 }
