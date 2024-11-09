@@ -12,15 +12,17 @@ import { useForm } from "react-hook-form";
 export type { FieldParam };
 export { FieldType };
 type ContentPageProps = {
-  itemComponentInfo: FieldParam[];
+  defaultValues: any;
+  fieldParams: FieldParam[];
   onSubmit: (args: any) => void;
 };
 
 export const ContentPage = ({
-  itemComponentInfo,
+  defaultValues,
+  fieldParams,
   onSubmit,
 }: ContentPageProps) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({ defaultValues });
   return (
     <AddToast>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -31,7 +33,7 @@ export const ContentPage = ({
             initialSelectId={revisionId}
           /> */}
         </div>
-        <GeneralForm fieldParams={itemComponentInfo} register={register} />
+        <GeneralForm fieldParams={fieldParams} register={register} />
         {/*
         <div style={{ marginTop: "20px" }}>
           <TagsField name="tags" tagOptions={tagOptions} />

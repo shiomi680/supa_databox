@@ -3,7 +3,7 @@ import { Item } from "@/crud/item";
 import path from "path";
 import { ColumnsDef } from "@/components/features/item-select/item-select";
 
-const ITEM_PAGE_URL = "/items";
+const ITEM_PAGE_URL = "/item";
 
 type ItemMenuProps = {
   items: Item[];

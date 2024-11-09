@@ -13,7 +13,7 @@ export const Default: Story = {
     return <ContentPage {...args} />;
   },
   args: {
-    itemComponentInfo: [
+    fieldParams: [
       { name: "title", title: "Title", type: FieldType.text, gridSize: 12 },
     ],
     onSubmit: (data: any) => {
