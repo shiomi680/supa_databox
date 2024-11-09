@@ -1,5 +1,5 @@
 import { ItemSelectorPanel } from "@/components/features/item-select/item-select";
-import { Item } from "@/crud/item";
+import { Item } from "@/lib/crud/item";
 import path from "path";
 import { ColumnsDef } from "@/components/features/item-select/item-select";
 

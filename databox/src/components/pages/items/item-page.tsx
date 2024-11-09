@@ -1,8 +1,8 @@
 import { SidebarComponent } from "@/components/layouts/menu-drawer/menu-sidebar";
 import { ItemMenu } from "./item-menu/item-menu";
-import { Item } from "@/crud/item";
+import { Item } from "@/lib/crud/item";
 import { useEffect, useState } from "react";
-import { fetchItems, fetchItem } from "@/crud/item";
+import { fetchItems, fetchItem } from "@/lib/crud/item";
 import { ItemContent } from "./item-content/item-content";
 
 type ItemPageProps = {

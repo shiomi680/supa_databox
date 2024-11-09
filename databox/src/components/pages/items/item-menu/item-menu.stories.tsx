@@ -1,6 +1,6 @@
 import { ItemMenu } from "./item-menu";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Item } from "@/crud/item";
+import { Item } from "@/lib/crud/item";
 const meta: Meta<typeof ItemMenu> = {
   component: ItemMenu,
 };
