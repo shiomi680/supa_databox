@@ -1,7 +1,7 @@
 import { Meta } from "@storybook/react";
-import { GeneralForm, FieldType } from "./general-form-panel";
+import { GeneralForm, FieldType } from "./general-form";
 import type { StoryObj } from "@storybook/react";
-
+import { useForm } from "react-hook-form";
 const meta: Meta<typeof GeneralForm> = {
   title: "features/general-form/GeneralForm",
   component: GeneralForm,
@@ -13,7 +13,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => {
-    return <GeneralForm {...args} />;
+    const { register, handleSubmit } = useForm();
+    const onSubmit = (data: any) => {
+      alert(`Form submitted! ${JSON.stringify(data)}`);
+    };
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <GeneralForm {...args} register={register} />
+        <button type="submit">Submit</button>
+      </form>
+    );
   },
   args: {
     fieldParams: [

@@ -14,7 +14,8 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-type ColumnsDef = {
+
+export type ColumnsDef = {
   field: string;
   headerName: string;
   link?: (formData: any) => string;

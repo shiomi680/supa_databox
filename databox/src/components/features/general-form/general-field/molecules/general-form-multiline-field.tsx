@@ -4,14 +4,19 @@ type GeneralFormMultilineFieldProps = {
   name: string;
   title?: string;
   rows: number;
+  register: any;
 };
 
 export const GeneralFormMultilineField: React.FC<
   GeneralFormMultilineFieldProps
-> = ({ name, title, rows }) => {
+> = ({ name, title, rows, register }) => {
   return (
     <div key={name}>
-      <Textarea name={name} placeholder={title ? title : name} rows={rows} />
+      <Textarea
+        {...register(name)}
+        placeholder={title ? title : name}
+        rows={rows}
+      />
     </div>
   );
 };

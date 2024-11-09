@@ -6,18 +6,22 @@ import {
 
 type GeneralFormProps = {
   fieldParams: FieldParam[];
+  register: any;
 };
 export type { FieldParam };
 export { FieldType };
 
-export const GeneralForm: React.FC<GeneralFormProps> = ({ fieldParams }) => {
+export const GeneralForm: React.FC<GeneralFormProps> = ({
+  fieldParams,
+  register,
+}) => {
   return (
     //12カラムのグリッドを作成
     <div className="grid grid-cols-12 gap-4">
       {fieldParams.map((field: FieldParam) => (
         //field.gridSizeに応じたカラムを作成
         <_GridField gridSize={field.gridSize} key={field.name}>
-          <GeneralField fieldParam={field} />
+          <GeneralField fieldParam={field} register={register} />
         </_GridField>
       ))}
     </div>

@@ -20,9 +20,13 @@ export type FieldParam = {
 
 type GeneralFieldProps = {
   fieldParam: FieldParam;
+  register: any;
 };
 
-export const GeneralField: React.FC<GeneralFieldProps> = ({ fieldParam }) => {
+export const GeneralField: React.FC<GeneralFieldProps> = ({
+  fieldParam,
+  register,
+}) => {
   if (
     fieldParam.type === FieldType.text &&
     fieldParam.rows &&
@@ -33,6 +37,7 @@ export const GeneralField: React.FC<GeneralFieldProps> = ({ fieldParam }) => {
         name={fieldParam.name}
         title={fieldParam.title}
         rows={fieldParam.rows}
+        register={register}
       />
     );
   } else if (fieldParam.type === FieldType.select) {
@@ -41,6 +46,7 @@ export const GeneralField: React.FC<GeneralFieldProps> = ({ fieldParam }) => {
         name={fieldParam.name}
         title={fieldParam.title}
         choices={fieldParam.choices ?? []}
+        register={register}
       />
     );
   } else {
@@ -49,6 +55,7 @@ export const GeneralField: React.FC<GeneralFieldProps> = ({ fieldParam }) => {
         name={fieldParam.name}
         title={fieldParam.title}
         type={fieldParam.type}
+        register={register}
       />
     );
   }
