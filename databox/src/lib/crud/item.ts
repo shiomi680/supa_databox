@@ -1,12 +1,6 @@
 import { FileEntity } from "./file-data";
 import { supabase } from "@/lib/supabase/supabase";
-
-export type ItemRevision = {
-  Id: string;
-  RevisionNumber: number;
-  RevisionDate: string;
-  Description: string;
-};
+import { Revision } from "./revision";
 // Define the Item type
 export type Item = {
   Id: string;
@@ -17,7 +11,7 @@ export type Item = {
   SalePrice: number;
   Files: FileEntity[];
   Tags: string[];
-  Revisions?: ItemRevision[];
+  Revisions?: Revision[];
 };
 
 export type ItemCreate = {
@@ -164,7 +158,7 @@ export async function addItemRevision(revisionData: ItemRevisionCreate) {
     RevisionNumber: newRevision.revision_number,
     RevisionDate: newRevision.revision_date,
     Description: newRevision.description,
-  } as ItemRevision;
+  } as Revision;
 }
 
 async function insertNewItem(): Promise<any> {
