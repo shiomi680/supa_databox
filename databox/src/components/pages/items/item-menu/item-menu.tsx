@@ -13,12 +13,14 @@ const gridColumnsDef: ColumnsDef[] = [
   {
     field: "ModelNumber",
     headerName: "Model Number",
-    link: (data: any) => path.join(ITEM_PAGE_URL, data.Id.toString()),
+    link: (data: Item) =>
+      path.join(ITEM_PAGE_URL, data.NewestRevisionId.toString()),
   },
   {
     field: "ItemName",
     headerName: "Item Name",
-    link: (data: any) => path.join(ITEM_PAGE_URL, data.Id.toString()),
+    link: (data: Item) =>
+      path.join(ITEM_PAGE_URL, data.NewestRevisionId.toString()),
   },
   {
     field: "ItemDescription",

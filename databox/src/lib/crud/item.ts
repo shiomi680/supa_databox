@@ -4,6 +4,7 @@ import { Revision } from "./revision";
 // Define the Item type
 export type Item = {
   Id: string;
+  NewestRevisionId: string;
   ModelNumber: string;
   ItemName: string;
   ItemDescription: string;
@@ -35,6 +36,7 @@ export async function fetchItems() {
   const { data: items, error } = await supabase.from("latest_item_details")
     .select(`
       id,
+      item_id,
       model_number,
       name,
       item_description,
@@ -51,7 +53,8 @@ export async function fetchItems() {
   return items.map(
     (item) =>
       ({
-        Id: item.id,
+        Id: item.item_id,
+        NewestRevisionId: item.id,
         ModelNumber: item.model_number,
         ItemName: item.name,
         ItemDescription: item.item_description,
@@ -68,12 +71,13 @@ export async function fetchItems() {
 }
 
 // Fetch a specific item by its ID, including its revisions
-export async function fetchItem(item_id: string) {
+export async function fetchItem(revision_id: string) {
   const { data: item, error } = await supabase
     .from("latest_item_details")
     .select(
       `
       id,
+      item_id,
       model_number,
       name,
       item_description,
@@ -83,19 +87,20 @@ export async function fetchItem(item_id: string) {
       item_tags(tag)
     `
     )
-    .eq("id", item_id)
+    .eq("id", revision_id)
     .single(); // Use single() to get a single item
   const { data: revisions, error: revisionsError } = await supabase
     .from("item_revisions")
     .select("id, revision_number, revision_date, description")
-    .eq("item_id", item_id);
+    .eq("item_id", item?.item_id);
   if (error) {
     console.error("Error fetching item:", error);
     return null; // Return null if there's an error
   }
 
   return {
-    Id: item.id,
+    Id: item.item_id,
+    NewestRevisionId: item.id,
     ModelNumber: item.model_number,
     ItemName: item.name,
     ItemDescription: item.item_description,
