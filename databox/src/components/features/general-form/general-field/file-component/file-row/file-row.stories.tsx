@@ -1,15 +1,15 @@
-import { FileField } from "./file-field";
+import { FileRow } from "./file-row";
 import { StoryObj, Meta } from "@storybook/react";
 
-const meta: Meta<typeof FileField> = {
-  component: FileField,
+const meta: Meta<typeof FileRow> = {
+  component: FileRow,
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => <FileField {...args} />,
+  render: (args) => <FileRow {...args} />,
   args: {
     file: {
       Id: "1",

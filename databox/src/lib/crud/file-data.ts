@@ -1,4 +1,4 @@
-export type FileData = {
+export type FileEntity = {
   Id: string;
   Name: string;
   Path: string;

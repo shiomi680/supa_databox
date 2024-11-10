@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { GeneralField, FieldType, FieldParam } from "./general-field";
 
 const meta: Meta<typeof GeneralField> = {
-  title: "features/forms/GeneralField",
   component: GeneralField,
 };
 
@@ -59,5 +58,19 @@ export const MultiLineTextField: Story = {
     return (
       <GeneralField {...args} fieldParam={fieldParam} register={register} />
     );
+  },
+};
+
+export const FileField: Story = {
+  render: (args) => {
+    const { control } = useForm();
+    const fieldParam: FieldParam = {
+      name: "fileField",
+      type: FieldType.files,
+      gridSize: 6,
+      title: "File Field",
+    };
+
+    return <GeneralField {...args} fieldParam={fieldParam} control={control} />;
   },
 };

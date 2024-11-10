@@ -1,8 +1,11 @@
-import { supabase } from "@/lib/supabase/supabase";
-import { FileData } from "./file-data";
-
+import { FileEntity } from "./file-data";
+import { SupabaseClient } from "@supabase/supabase-js";
 // Function to upload a file to Supabase Storage
-export async function uploadFile(bucketName: string, file: File) {
+export async function uploadFile(
+  supabase: SupabaseClient,
+  bucketName: string,
+  file: File
+) {
   const currentDate = new Date();
   const month = currentDate.toISOString().slice(0, 7); // YYYY-MM形式
   const timestamp = Date.now(); // タイムスタンプ
@@ -41,11 +44,15 @@ export async function uploadFile(bucketName: string, file: File) {
     Bucket: bucketName,
     Path: filePath,
     CreatedAt: currentDate,
-  } as FileData; // ストレージとDBのデータを返す
+  } as FileEntity; // ストレージとDBのデータを返す
 }
 
 // Function to download a file from Supabase Storage
-export async function downloadFile(bucketName: string, filePath: string) {
+export async function downloadFile(
+  supabase: SupabaseClient,
+  bucketName: string,
+  filePath: string
+) {
   // タイムスタンプを除去するための処理
   const cleanedFilePath = filePath.replace(/^\d+_/, ""); // タイムスタンプを除去
 
@@ -61,13 +68,16 @@ export async function downloadFile(bucketName: string, filePath: string) {
   return data;
 }
 
-export async function downloadFileByFileId(fileId: string) {
+export async function downloadFileByFileId(
+  supabase: SupabaseClient,
+  fileId: string
+) {
   const { data, error } = await supabase
     .from("files")
     .select("*")
     .eq("id", fileId);
   if (data && data[0]) {
-    return downloadFile(data[0].bucket, data[0].path);
+    return await downloadFile(supabase, data[0].bucket, data[0].path);
   }
   return null;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-type FileFieldProps = {
+type FileRowProps = {
   key?: string;
   file: {
     Id: string;
@@ -12,7 +12,7 @@ type FileFieldProps = {
   onDelete?: (id: string) => void;
 };
 
-export const FileField: React.FC<FileFieldProps> = ({
+export const FileRow: React.FC<FileRowProps> = ({
   key,
   file,
   onToggleVisibility,

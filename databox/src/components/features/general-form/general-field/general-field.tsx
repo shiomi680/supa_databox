@@ -1,12 +1,13 @@
 import { GeneralFormSelectable } from "./molecules/general-form-selectable";
 import { GeneralFormTextField } from "./molecules/general-form-text-field";
 import { GeneralFormMultilineField } from "./molecules/general-form-multiline-field";
-
+import { FilePanelField } from "./file-component/file-field";
 export enum FieldType {
   date = "date",
   number = "number",
   text = "text",
   select = "select",
+  files = "files",
 }
 
 export type FieldParam = {
@@ -21,11 +22,13 @@ export type FieldParam = {
 type GeneralFieldProps = {
   fieldParam: FieldParam;
   register: any;
+  control: any;
 };
 
 export const GeneralField: React.FC<GeneralFieldProps> = ({
   fieldParam,
   register,
+  control,
 }) => {
   if (
     fieldParam.type === FieldType.text &&
@@ -49,6 +52,8 @@ export const GeneralField: React.FC<GeneralFieldProps> = ({
         register={register}
       />
     );
+  } else if (fieldParam.type === FieldType.files) {
+    return <FilePanelField name={fieldParam.name} control={control} />;
   } else {
     return (
       <GeneralFormTextField

@@ -11,7 +11,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: (args) => <FilePanel {...args} />,
   args: {
-    initialFiles: [
+    files: [
       {
         Id: "1",
         FileName: "test.pdf",

@@ -7,6 +7,7 @@ import {
 type GeneralFormProps = {
   fieldParams: FieldParam[];
   register: any;
+  control: any;
 };
 export type { FieldParam };
 export { FieldType };
@@ -14,6 +15,7 @@ export { FieldType };
 export const GeneralForm: React.FC<GeneralFormProps> = ({
   fieldParams,
   register,
+  control,
 }) => {
   return (
     //12カラムのグリッドを作成
@@ -21,7 +23,11 @@ export const GeneralForm: React.FC<GeneralFormProps> = ({
       {fieldParams.map((field: FieldParam) => (
         //field.gridSizeに応じたカラムを作成
         <_GridField gridSize={field.gridSize} key={field.name}>
-          <GeneralField fieldParam={field} register={register} />
+          <GeneralField
+            fieldParam={field}
+            register={register}
+            control={control}
+          />
         </_GridField>
       ))}
     </div>

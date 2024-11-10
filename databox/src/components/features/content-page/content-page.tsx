@@ -9,6 +9,13 @@ import { useForm } from "react-hook-form";
 // import { TagsField } from "@/components/features/tags-field/tags-field";
 // import { FileControlComponent } from "@/components/features/file-control/file-control";
 // import { ControlledTextField } from "@/components/features/controlled-text-field/controlled-text-field";
+import {
+  ContentRevisionLayout,
+  ContentFileLayout,
+  ContentSubmitLayout,
+  ContentPageLayout,
+} from "@/components/layouts/menu-drawer/content-page-layout";
+
 export type { FieldParam };
 export { FieldType };
 type ContentPageProps = {
@@ -22,34 +29,34 @@ export const ContentPage = ({
   fieldParams,
   onSubmit,
 }: ContentPageProps) => {
-  const { register, handleSubmit } = useForm({ defaultValues });
+  const { register, handleSubmit, control } = useForm({ defaultValues });
+
   return (
-    <AddToast>
+    <ContentPageLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div style={{ marginBottom: "20px" }}>
+        <ContentRevisionLayout>
+          <></>
           {/* <RevisionSelector
             revisions={revisions}
             onRevisionChange={handleRevisionChange}
             initialSelectId={revisionId}
           /> */}
-        </div>
-        <GeneralForm fieldParams={fieldParams} register={register} />
-        {/*
-        <div style={{ marginTop: "20px" }}>
-          <TagsField name="tags" tagOptions={tagOptions} />
-        </div>
-        <div style={{ marginTop: "20px" }}>
-          <FileUploadTableComponent initialFiles={uploadedFiles} onChange={setUploadedFiles} /> 
-          <FileControlComponent name="Files" />
-          </div>
-        */}
-        <div
-          style={{ marginTop: "20px", display: "flex", alignItems: "center" }}
-        >
-          {/* <ControlledTextField label={"Update message"} name="commitComment" /> */}
+        </ContentRevisionLayout>
+
+        <GeneralForm
+          register={register}
+          control={control}
+          fieldParams={fieldParams}
+        />
+        <ContentFileLayout>
+          <></>
+          {/* <FileUploadTableComponent initialFiles={uploadedFiles} onChange={setUploadedFiles} /> 
+          <FileControlComponent name="Files" /> */}
+        </ContentFileLayout>
+        <ContentSubmitLayout>
           <Button type="submit">Submit</Button>
-        </div>
+        </ContentSubmitLayout>
       </form>
-    </AddToast>
+    </ContentPageLayout>
   );
 };
