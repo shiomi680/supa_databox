@@ -52,7 +52,11 @@ export function ItemPage({ item_id }: ItemPageProps) {
       <SidebarComponent title="Item Page" footer="Footer">
         <ItemMenu items={items} />
       </SidebarComponent>
-      <ItemContent item={item} onSubmit={onSubmit} />
+      {(item_id && item) || (!item_id && !item) ? (
+        <ItemContent item={item} onSubmit={onSubmit} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
