@@ -150,6 +150,23 @@ export async function createItem(item: ItemCreate) {
   } as Item;
 }
 
+export async function addItemRevision(revisionData: ItemRevisionCreate) {
+  const newRevision = await insertNewRevision(revisionData);
+
+  if (!newRevision) {
+    return null;
+  }
+
+  await insertFilesAndTags(newRevision.id, revisionData.Item);
+
+  return {
+    Id: newRevision.id,
+    RevisionNumber: newRevision.revision_number,
+    RevisionDate: newRevision.revision_date,
+    Description: newRevision.description,
+  } as ItemRevision;
+}
+
 async function insertNewItem(): Promise<any> {
   const { data: newItem, error: itemError } = await supabase
     .from("items")
@@ -223,4 +240,48 @@ async function insertFilesAndTags(
     }));
     await insertAssociatedRecords("item_tags", tagInserts);
   }
+}
+
+async function insertNewRevision(
+  revisionData: ItemRevisionCreate
+): Promise<any> {
+  const newRevisionData = {
+    item_id: revisionData.ItemId,
+    revision_number: await getNextRevisionNumber(revisionData.ItemId),
+    revision_date: new Date().toISOString(),
+    description: revisionData.Description,
+    model_number: revisionData.Item.ModelNumber,
+    name: revisionData.Item.ItemName,
+    item_description: revisionData.Item.ItemDescription,
+    cost: revisionData.Item.Cost,
+    sale_price: revisionData.Item.SalePrice,
+  };
+
+  const { data: newRevision, error: revisionError } = await supabase
+    .from("item_revisions")
+    .insert(newRevisionData)
+    .select();
+
+  if (revisionError) {
+    console.error("Error creating item revision:", revisionError);
+    return null;
+  }
+
+  return newRevision[0];
+}
+
+async function getNextRevisionNumber(itemId: number): Promise<number> {
+  const { data: revisions, error } = await supabase
+    .from("item_revisions")
+    .select("revision_number")
+    .eq("item_id", itemId)
+    .order("revision_number", { ascending: false })
+    .limit(1);
+
+  if (error) {
+    console.error("Error fetching revision number:", error);
+    return 0;
+  }
+
+  return revisions.length > 0 ? revisions[0].revision_number + 1 : 0;
 }
