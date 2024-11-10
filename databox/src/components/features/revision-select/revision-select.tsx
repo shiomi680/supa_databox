@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/select";
 import { Revision } from "@/lib/crud/revision";
 type RevisionSelectProps = {
-  selected: Revision;
+  selected: Revision | undefined;
   revisions: Revision[];
   onChange: (revision: Revision) => void;
 };
@@ -16,17 +16,19 @@ export const RevisionSelect: React.FC<RevisionSelectProps> = ({
   revisions,
   onChange,
 }) => {
-  const handleChange = (value: string) => {
-    const revision = revisions.find((r) => r.Id === value);
-    if (revision) {
-      onChange(revision);
+  const handleChange = (value: string | undefined) => {
+    if (value) {
+      const revision = revisions.find((r) => r.Id === value);
+      if (revision) {
+        onChange(revision);
+      }
     }
   };
   return (
-    <div key={selected.Id}>
-      <Select value={selected.Id} onValueChange={handleChange}>
+    <div>
+      <Select value={selected?.Id ?? undefined} onValueChange={handleChange}>
         <SelectTrigger>
-          {selected.RevisionDate} : {selected.Description}
+          {selected?.RevisionDate} : {selected?.Description}
         </SelectTrigger>
         <SelectContent>
           {revisions?.map((revision) => (

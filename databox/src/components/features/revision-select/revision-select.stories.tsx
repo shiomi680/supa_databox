@@ -1,4 +1,4 @@
-import { RevisionSelect } from "./revison-select";
+import { RevisionSelect } from "./revision-select";
 import { Revision } from "@/lib/crud/revision";
 import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
@@ -12,7 +12,9 @@ type Story = StoryObj<typeof RevisionSelect>;
 
 export const Primary: Story = {
   render: (args) => {
-    const [selected, setSelected] = useState<Revision>(args.selected);
+    const [selected, setSelected] = useState<Revision | undefined>(
+      args.selected
+    );
     return (
       <RevisionSelect {...args} selected={selected} onChange={setSelected} />
     );
@@ -38,5 +40,13 @@ export const Primary: Story = {
         Description: "Second Revision",
       },
     ],
+  },
+};
+
+export const NoSelected: Story = {
+  ...Primary,
+  args: {
+    ...Primary.args,
+    selected: undefined,
   },
 };
