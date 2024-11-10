@@ -106,8 +106,8 @@ export function ItemContent({ item, onSubmit }: ItemContentProps) {
     [item]
   );
   useEffect(() => {
-    console.log(defaultValues);
-  }, [defaultValues]);
+    console.log(item);
+  }, [item]);
 
   const { register, handleSubmit, control } = useForm({ defaultValues });
   const revisions = item?.Revisions ?? [];
@@ -124,6 +124,11 @@ export function ItemContent({ item, onSubmit }: ItemContentProps) {
             onChange={setRevision}
           />
         </ContentRevisionLayout> */}
+        <RevisionSelect
+          selected={revision}
+          revisions={revisions}
+          onChange={setRevision}
+        />
 
         <GeneralForm
           register={register}

@@ -89,7 +89,6 @@ export async function fetchItem(item_id: string) {
     .from("item_revisions")
     .select("id, revision_number, revision_date, description")
     .eq("item_id", item_id);
-
   if (error) {
     console.error("Error fetching item:", error);
     return null; // Return null if there's an error
