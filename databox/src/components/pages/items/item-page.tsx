@@ -1,15 +1,25 @@
 import { SidebarComponent } from "@/components/layouts/menu-drawer/menu-sidebar";
 import { ItemMenu } from "./item-menu/item-menu";
-import { createItem, Item, addItemRevision } from "@/lib/crud/item";
 import { useEffect, useState } from "react";
-import { fetchItems, fetchItem } from "@/lib/crud/item";
-import { ItemContent } from "./item-content/item-content";
+import {
+  fetchItems,
+  fetchItemWithRevision,
+  ItemCreate,
+  createItem,
+  ItemRevisionCreate,
+  Item,
+  addItemRevision,
+} from "@/lib/crud/item";
+import { ItemContent, ItemFormValues } from "./item-content/item-content";
+import { useRouter } from "next/navigation";
+import { Revision } from "@/lib/crud/revision";
 
 type ItemPageProps = {
   revision_id?: string;
 };
 
 export function ItemPage({ revision_id }: ItemPageProps) {
+  const router = useRouter();
   //サイドバー
   const [items, setItems] = useState<Item[]>([]);
   //メインコンテンツ
@@ -24,7 +34,7 @@ export function ItemPage({ revision_id }: ItemPageProps) {
     //メインコンテンツの初期化
     const loadItem = async () => {
       if (revision_id) {
-        const fetchedItem = await fetchItem(revision_id);
+        const fetchedItem = await fetchItemWithRevision(revision_id);
         if (fetchedItem) {
           setItem(fetchedItem);
         }
@@ -35,27 +45,55 @@ export function ItemPage({ revision_id }: ItemPageProps) {
   }, [revision_id]);
 
   //メインコンテンツのデータ更新
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ItemFormValues) => {
     console.log(data);
-    if (revision_id) {
+    if (item) {
       try {
-        const newItem = await createItem(data);
-        if (newItem) {
+        const revisionData: ItemRevisionCreate = {
+          ItemId: item.ItemId,
+          Description: data.ItemDescription,
+          Item: {
+            ModelNumber: data.ModelNumber,
+            ItemName: data.ItemName,
+            ItemDescription: data.ItemDescription,
+            Cost: data.Cost,
+            SalePrice: data.SalePrice,
+            FileIds: [],
+            Tags: [],
+          } as ItemCreate,
+        };
+        const newRevision = await addItemRevision(revisionData);
+        if (newRevision) {
           //リダイレクト TODO
+          router.push(`/item/${newRevision.Id}`);
         }
       } catch (error) {
         console.error(error);
       }
     } else {
       try {
-        const newRevision = await addItemRevision(data);
-        if (newRevision) {
+        const itemData: ItemCreate = {
+          ModelNumber: data.ModelNumber,
+          ItemName: data.ItemName,
+          ItemDescription: data.ItemDescription,
+          Cost: data.Cost,
+          SalePrice: data.SalePrice,
+          FileIds: [],
+          Tags: [],
+        };
+        const newItem = await createItem(itemData);
+        if (newItem) {
           //リダイレクト TODO
+          router.push(`/item/${newItem.NewestRevisionId}`);
         }
       } catch (error) {
         console.error(error);
       }
     }
+  };
+
+  const onChangeRevision = (revision: Revision) => {
+    router.push(`/item/${revision.Id}`);
   };
 
   return (
@@ -64,7 +102,11 @@ export function ItemPage({ revision_id }: ItemPageProps) {
         <ItemMenu items={items} />
       </SidebarComponent>
       {(revision_id && item) || (!revision_id && !item) ? (
-        <ItemContent item={item} onSubmit={onSubmit} />
+        <ItemContent
+          item={item}
+          onSubmit={onSubmit}
+          onChangeRevision={onChangeRevision}
+        />
       ) : (
         <></>
       )}

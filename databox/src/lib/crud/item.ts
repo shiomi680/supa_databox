@@ -3,7 +3,8 @@ import { supabase } from "@/lib/supabase/supabase";
 import { Revision } from "./revision";
 // Define the Item type
 export type Item = {
-  Id: string;
+  ItemId: string;
+  RevisionId: string;
   NewestRevisionId: string;
   ModelNumber: string;
   ItemName: string;
@@ -26,10 +27,61 @@ export type ItemCreate = {
 };
 
 export type ItemRevisionCreate = {
-  ItemId: number;
+  ItemId: string;
   Description: string;
   Item: ItemCreate;
 };
+
+export async function fetchItemWithRevision(revision_id: string) {
+  const { data: target_revision, error } = await supabase
+    .from("item_revisions")
+    .select(
+      `
+      id,
+      item_id,
+      model_number,
+      name,
+      item_description,
+      cost,
+      sale_price,
+      item_files(file_id, files(name, path)), 
+      item_tags(tag)
+    `
+    )
+    .eq("id", revision_id)
+    .single(); // Use single() to get a single item
+  const { data: revisions, error: revisionsError } = await supabase
+    .from("item_revisions")
+    .select("id, revision_number, revision_date, description")
+    .eq("item_id", target_revision?.item_id);
+  if (error) {
+    console.error("Error fetching item:", error);
+    return null; // Return null if there's an error
+  }
+
+  return {
+    ItemId: target_revision.item_id,
+    RevisionId: target_revision.id,
+    NewestRevisionId: revisions?.at(-1)?.id,
+    ModelNumber: target_revision.model_number,
+    ItemName: target_revision.name,
+    ItemDescription: target_revision.item_description,
+    Cost: target_revision.cost,
+    SalePrice: target_revision.sale_price,
+    Files: target_revision.item_files.map((file) => ({
+      Id: file.file_id,
+      Name: file.files.name,
+      Path: file.files.path,
+    })) as FileEntity[],
+    Tags: target_revision.item_tags.map((tag) => tag.tag),
+    Revisions: revisions?.map((revision) => ({
+      Id: revision.id,
+      RevisionNumber: revision.revision_number,
+      RevisionDate: revision.revision_date,
+      Description: revision.description,
+    })),
+  } as Item;
+}
 
 // Fetch items with their latest revisions, files, and tags
 export async function fetchItems() {
@@ -53,7 +105,7 @@ export async function fetchItems() {
   return items.map(
     (item) =>
       ({
-        Id: item.item_id,
+        ItemId: item.item_id,
         NewestRevisionId: item.id,
         ModelNumber: item.model_number,
         ItemName: item.name,
@@ -70,56 +122,6 @@ export async function fetchItems() {
   );
 }
 
-// Fetch a specific item by its ID, including its revisions
-export async function fetchItem(revision_id: string) {
-  const { data: item, error } = await supabase
-    .from("latest_item_details")
-    .select(
-      `
-      id,
-      item_id,
-      model_number,
-      name,
-      item_description,
-      cost,
-      sale_price,
-      item_files(file_id, files(name, path)), 
-      item_tags(tag)
-    `
-    )
-    .eq("id", revision_id)
-    .single(); // Use single() to get a single item
-  const { data: revisions, error: revisionsError } = await supabase
-    .from("item_revisions")
-    .select("id, revision_number, revision_date, description")
-    .eq("item_id", item?.item_id);
-  if (error) {
-    console.error("Error fetching item:", error);
-    return null; // Return null if there's an error
-  }
-
-  return {
-    Id: item.item_id,
-    NewestRevisionId: item.id,
-    ModelNumber: item.model_number,
-    ItemName: item.name,
-    ItemDescription: item.item_description,
-    Cost: item.cost,
-    SalePrice: item.sale_price,
-    Files: item.item_files.map((file) => ({
-      Id: file.file_id,
-      Name: file.files.name,
-      Path: file.files.path,
-    })) as FileEntity[],
-    Tags: item.item_tags.map((tag) => tag.tag),
-    Revisions: revisions?.map((revision) => ({
-      Id: revision.id,
-      RevisionNumber: revision.revision_number,
-      RevisionDate: revision.revision_date,
-      Description: revision.description,
-    })),
-  } as Item;
-}
 export async function createItem(item: ItemCreate) {
   const newItem = await insertNewItem();
   const newRevision = await insertInitialRevision(item, newItem.id);
@@ -131,7 +133,9 @@ export async function createItem(item: ItemCreate) {
   await insertFilesAndTags(newRevision.id, item);
 
   return {
-    Id: newItem.id,
+    ItemId: newItem.id,
+    RevisionId: newRevision.id,
+    NewestRevisionId: newRevision.id,
     ModelNumber: item.ModelNumber,
     ItemName: item.ItemName,
     ItemDescription: item.ItemDescription,
@@ -268,7 +272,7 @@ async function insertNewRevision(
   return newRevision[0];
 }
 
-async function getNextRevisionNumber(itemId: number): Promise<number> {
+async function getNextRevisionNumber(itemId: string): Promise<number> {
   const { data: revisions, error } = await supabase
     .from("item_revisions")
     .select("revision_number")

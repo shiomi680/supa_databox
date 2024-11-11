@@ -61,12 +61,7 @@ const fieldParams = [
   },
 ];
 
-type ItemContentProps = {
-  item?: Item;
-  onSubmit: (data: any) => void;
-};
-
-type ItemFormValues = {
+export type ItemFormValues = {
   ModelNumber: string;
   ItemName: string;
   ItemDescription: string;
@@ -93,8 +88,17 @@ function itemToFormValues(values: Item | undefined): ItemFormValues {
     SalePrice: values?.SalePrice ?? 0,
   };
 }
+type ItemContentProps = {
+  item?: Item;
+  onSubmit: (data: any) => void;
+  onChangeRevision: (revision: Revision) => void;
+};
 
-export function ItemContent({ item, onSubmit }: ItemContentProps) {
+export function ItemContent({
+  item,
+  onSubmit,
+  onChangeRevision,
+}: ItemContentProps) {
   const defaultValues = useMemo(
     () => ({
       ModelNumber: item?.ModelNumber || "-",
@@ -111,11 +115,16 @@ export function ItemContent({ item, onSubmit }: ItemContentProps) {
 
   const { register, handleSubmit, control } = useForm({ defaultValues });
   const revisions = item?.Revisions ?? [];
-  const [revision, setRevision] = useState<Revision | undefined>(
-    item?.Revisions?.at(-1)
-  );
+  const revision = revisions.find((r) => r.Id === item?.RevisionId);
   return (
     <ContentPageLayout>
+      <ContentRevisionLayout>
+        <RevisionSelect
+          selected={revision}
+          revisions={revisions}
+          onChange={onChangeRevision}
+        />
+      </ContentRevisionLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* <ContentRevisionLayout>
           <RevisionSelect
@@ -124,11 +133,6 @@ export function ItemContent({ item, onSubmit }: ItemContentProps) {
             onChange={setRevision}
           />
         </ContentRevisionLayout> */}
-        <RevisionSelect
-          selected={revision}
-          revisions={revisions}
-          onChange={setRevision}
-        />
 
         <GeneralForm
           register={register}
