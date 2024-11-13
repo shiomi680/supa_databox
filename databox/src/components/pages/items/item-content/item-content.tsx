@@ -18,6 +18,10 @@ import { RevisionSelect } from "@/components/features/revision-select/revision-s
 import { useState } from "react";
 import { Revision } from "@/lib/crud/revision";
 import { useMemo, useEffect } from "react";
+import { uploadFile } from "@/lib/crud/storage";
+import { supabase } from "@/lib/supabase/supabase";
+import { ItemFilesPanel } from "../file-panel/file-panel-component";
+import { Controller } from "react-hook-form";
 
 //Id: number;
 // ModelNumber: string;
@@ -88,6 +92,15 @@ function itemToFormValues(values: Item | undefined): ItemFormValues {
     SalePrice: values?.SalePrice ?? 0,
   };
 }
+// function fileEntityToFileType(values: FileEntity[]): FileType[] {
+//   return values.map((value) => ({
+//     Id: value.Id,
+//     FileName: value.FileName,
+//     Url: value.Url,
+//     Visible: value.Visible,
+//   }));
+// }
+
 type ItemContentProps = {
   item?: Item;
   onSubmit: (data: any) => void;
@@ -106,6 +119,7 @@ export function ItemContent({
       ItemDescription: item?.ItemDescription || "",
       Cost: item?.Cost || 0,
       SalePrice: item?.SalePrice || 0,
+      Files: item?.Files || [],
     }),
     [item]
   );
@@ -116,6 +130,17 @@ export function ItemContent({
   const { register, handleSubmit, control } = useForm({ defaultValues });
   const revisions = item?.Revisions ?? [];
   const revision = revisions.find((r) => r.Id === item?.RevisionId);
+  const handleUploadFiles = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const file = formData.get("file") as File;
+    if (file) {
+      const rtn = await uploadFile(supabase, "item-files", file);
+      console.log(rtn);
+    } else {
+      console.log("file is null");
+    }
+  };
   return (
     <ContentPageLayout>
       <ContentRevisionLayout>
@@ -126,18 +151,15 @@ export function ItemContent({
         />
       </ContentRevisionLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* <ContentRevisionLayout>
-          <RevisionSelect
-            selected={revision}
-            revisions={revisions}
-            onChange={setRevision}
-          />
-        </ContentRevisionLayout> */}
-
         <GeneralForm
           register={register}
           control={control}
           fieldParams={fieldParams}
+        />
+        <Controller
+          name={"Files"}
+          control={control}
+          render={({ field }) => <ItemFilesPanel {...field} />}
         />
 
         <Button type="submit">Submit</Button>

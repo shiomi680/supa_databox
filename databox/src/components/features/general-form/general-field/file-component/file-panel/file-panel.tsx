@@ -1,13 +1,9 @@
 import React from "react";
 import { FileRow } from "../file-row/file-row";
-
+import { FileEntity } from "@/lib/crud/file-data";
 type FilePanelProps = {
-  files: {
-    Id: string;
-    FileName: string;
-    Url: string;
-    Visible: boolean;
-  }[];
+  files: FileEntity[];
+  onClick?: (id: string) => void;
   onToggleVisibility?: (id: string) => void;
   onDelete?: (id: string) => void;
   onDropFiles?: (files: File[]) => void;
@@ -15,6 +11,7 @@ type FilePanelProps = {
 
 export const FilePanel: React.FC<FilePanelProps> = ({
   files,
+  onClick,
   onToggleVisibility,
   onDelete,
   onDropFiles,
@@ -25,6 +22,7 @@ export const FilePanel: React.FC<FilePanelProps> = ({
         <FileRow
           key={file.Id}
           file={file}
+          onClick={onClick}
           onToggleVisibility={onToggleVisibility}
           onDelete={onDelete}
         />

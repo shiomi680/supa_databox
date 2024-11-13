@@ -1,13 +1,10 @@
 import React from "react";
+import { FileEntity } from "@/lib/crud/file-data";
 
 type FileRowProps = {
   key?: string;
-  file: {
-    Id: string;
-    FileName: string;
-    Url: string;
-    Visible: boolean;
-  };
+  file: FileEntity;
+  onClick?: (id: string) => void;
   onToggleVisibility?: (id: string) => void;
   onDelete?: (id: string) => void;
 };
@@ -15,6 +12,7 @@ type FileRowProps = {
 export const FileRow: React.FC<FileRowProps> = ({
   key,
   file,
+  onClick,
   onToggleVisibility,
   onDelete,
 }) => {
@@ -31,12 +29,10 @@ export const FileRow: React.FC<FileRowProps> = ({
         borderBottom: "1px solid #f0f0f0",
       }}
     >
-      <button onClick={() => onToggleVisibility?.(file.Id)}>
+      {/* <button onClick={() => onToggleVisibility?.(file.Id)}>
         {file.Visible ? "Hide" : "Show"}
-      </button>
-      <a href={file.Url} download style={{ flex: 1, margin: "0 10px" }}>
-        {file.FileName}
-      </a>
+      </button> */}
+      <a onClick={() => onClick?.(file.Id)}>{file.Name}</a>
       <button onClick={() => onDelete?.(file.Id)}>Delete</button>
     </div>
   );

@@ -14,15 +14,17 @@ export const Default: Story = {
     files: [
       {
         Id: "1",
-        FileName: "test.pdf",
-        Url: "https://example.com/test.pdf",
-        Visible: true,
+        Name: "test.pdf",
+        Path: "https://example.com/test.pdf",
+        Bucket: "item-files",
+        CreatedAt: new Date(),
       },
       {
         Id: "2",
-        FileName: "test2.pdf",
-        Url: "https://example.com/test2.pdf",
-        Visible: true,
+        Name: "test2.pdf",
+        Path: "https://example.com/test2.pdf",
+        Bucket: "item-files",
+        CreatedAt: new Date(),
       },
     ],
   },

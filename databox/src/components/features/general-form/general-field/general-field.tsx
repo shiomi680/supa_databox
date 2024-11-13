@@ -1,7 +1,8 @@
 import { GeneralFormSelectable } from "./molecules/general-form-selectable";
 import { GeneralFormTextField } from "./molecules/general-form-text-field";
 import { GeneralFormMultilineField } from "./molecules/general-form-multiline-field";
-import { FilePanelField } from "./file-component/file-field";
+import { ItemFilesPanel } from "../../../pages/items/file-panel/file-panel-component";
+import { Controller } from "react-hook-form";
 export enum FieldType {
   date = "date",
   number = "number",
@@ -53,7 +54,13 @@ export const GeneralField: React.FC<GeneralFieldProps> = ({
       />
     );
   } else if (fieldParam.type === FieldType.files) {
-    return <FilePanelField name={fieldParam.name} control={control} />;
+    return (
+      <Controller
+        name={fieldParam.name}
+        control={control}
+        render={({ field }) => <ItemFilesPanel {...field} />}
+      />
+    );
   } else {
     return (
       <GeneralFormTextField

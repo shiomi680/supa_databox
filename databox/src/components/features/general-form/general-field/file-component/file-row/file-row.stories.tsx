@@ -13,9 +13,11 @@ export const Default: Story = {
   args: {
     file: {
       Id: "1",
-      FileName: "test.pdf",
-      Url: "https://example.com/test.pdf",
-      Visible: true,
+      Name: "test.pdf",
+      Path: "test.pdf",
+      Bucket: "item-files",
+      CreatedAt: new Date(),
+      // Visible: true,
     },
   },
 };
