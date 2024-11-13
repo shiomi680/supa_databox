@@ -16,8 +16,21 @@ export const FilePanel: React.FC<FilePanelProps> = ({
   onDelete,
   onDropFiles,
 }: FilePanelProps) => {
+  // New function to handle file drop
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const droppedFiles = Array.from(event.dataTransfer.files);
+    if (onDropFiles) {
+      onDropFiles(droppedFiles);
+    }
+  };
+
+  // New function to allow dropping
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
   return (
-    <div>
+    <div onDrop={handleDrop} onDragOver={handleDragOver}>
       {files.map((file) => (
         <FileRow
           key={file.Id}
