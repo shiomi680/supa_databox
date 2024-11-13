@@ -31,15 +31,19 @@ export const FilePanel: React.FC<FilePanelProps> = ({
   };
   return (
     <div onDrop={handleDrop} onDragOver={handleDragOver}>
-      {files.map((file) => (
-        <FileRow
-          key={file.Id}
-          file={file}
-          onClick={onClick}
-          onToggleVisibility={onToggleVisibility}
-          onDelete={onDelete}
-        />
-      ))}
+      {files.length === 0 ? (
+        <div className="drop-area">ファイルをここにドロップしてください</div>
+      ) : (
+        files.map((file) => (
+          <FileRow
+            key={file.Id}
+            file={file}
+            onClick={onClick}
+            onToggleVisibility={onToggleVisibility}
+            onDelete={onDelete}
+          />
+        ))
+      )}
     </div>
   );
 };

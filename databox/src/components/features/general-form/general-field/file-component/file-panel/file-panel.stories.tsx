@@ -29,3 +29,10 @@ export const Default: Story = {
     ],
   },
 };
+
+export const EmptyFiles: Story = {
+  render: (args) => <FilePanel {...args} />,
+  args: {
+    files: [],
+  },
+};

@@ -18,6 +18,10 @@ export const FileRow: React.FC<FileRowProps> = ({
 }) => {
   // ファイルの情報とボタンを表示する
   //リンクがあるので、ダウンロードできる
+  const handleDownloadFile = (event: React.MouseEvent) => {
+    event.preventDefault(); // Prevent default action
+    onClick?.(file.Id);
+  };
 
   return (
     <div
@@ -29,10 +33,13 @@ export const FileRow: React.FC<FileRowProps> = ({
         borderBottom: "1px solid #f0f0f0",
       }}
     >
+      {" "}
       {/* <button onClick={() => onToggleVisibility?.(file.Id)}>
         {file.Visible ? "Hide" : "Show"}
       </button> */}
-      <a onClick={() => onClick?.(file.Id)}>{file.Name}</a>
+      <button onClick={(event) => handleDownloadFile(event)}>
+        {file.Name}
+      </button>
       <button onClick={() => onDelete?.(file.Id)}>Delete</button>
     </div>
   );

@@ -58,7 +58,7 @@ export function ItemPage({ revision_id }: ItemPageProps) {
             ItemDescription: data.ItemDescription,
             Cost: data.Cost,
             SalePrice: data.SalePrice,
-            FileIds: [],
+            FileIds: data.Files.map((file) => file.Id),
             Tags: [],
           } as ItemCreate,
         };
@@ -78,7 +78,7 @@ export function ItemPage({ revision_id }: ItemPageProps) {
           ItemDescription: data.ItemDescription,
           Cost: data.Cost,
           SalePrice: data.SalePrice,
-          FileIds: [],
+          FileIds: data.Files.map((file) => file.Id),
           Tags: [],
         };
         const newItem = await createItem(itemData);

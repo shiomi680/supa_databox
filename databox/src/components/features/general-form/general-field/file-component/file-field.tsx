@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { ItemFilesPanel } from "../../../../pages/items/file-panel/file-panel-component";
+import { ItemFilesPanel } from "../../../../pages/items/file-panel/file-panel-container";
 
 type FilePanelFieldProps = {
   name: string;

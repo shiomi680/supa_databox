@@ -20,7 +20,8 @@ import { Revision } from "@/lib/crud/revision";
 import { useMemo, useEffect } from "react";
 import { uploadFile } from "@/lib/crud/storage";
 import { supabase } from "@/lib/supabase/supabase";
-import { ItemFilesPanel } from "../file-panel/file-panel-component";
+import { FileEntity } from "@/lib/crud/file-data";
+import { ItemFilesPanel } from "../file-panel/file-panel-container";
 import { Controller } from "react-hook-form";
 
 //Id: number;
@@ -71,6 +72,7 @@ export type ItemFormValues = {
   ItemDescription: string;
   Cost: number;
   SalePrice: number;
+  Files: FileEntity[];
 };
 // function formValuesToItem(values: ItemFormValues): Item {
 //   return {
@@ -90,6 +92,7 @@ function itemToFormValues(values: Item | undefined): ItemFormValues {
     ItemDescription: values?.ItemDescription ?? "-",
     Cost: values?.Cost ?? 1,
     SalePrice: values?.SalePrice ?? 0,
+    Files: values?.Files ?? [],
   };
 }
 // function fileEntityToFileType(values: FileEntity[]): FileType[] {
@@ -130,17 +133,7 @@ export function ItemContent({
   const { register, handleSubmit, control } = useForm({ defaultValues });
   const revisions = item?.Revisions ?? [];
   const revision = revisions.find((r) => r.Id === item?.RevisionId);
-  const handleUploadFiles = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const file = formData.get("file") as File;
-    if (file) {
-      const rtn = await uploadFile(supabase, "item-files", file);
-      console.log(rtn);
-    } else {
-      console.log("file is null");
-    }
-  };
+
   return (
     <ContentPageLayout>
       <ContentRevisionLayout>

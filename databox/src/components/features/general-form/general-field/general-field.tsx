@@ -1,7 +1,7 @@
 import { GeneralFormSelectable } from "./molecules/general-form-selectable";
 import { GeneralFormTextField } from "./molecules/general-form-text-field";
 import { GeneralFormMultilineField } from "./molecules/general-form-multiline-field";
-import { ItemFilesPanel } from "../../../pages/items/file-panel/file-panel-component";
+import { ItemFilesPanel } from "../../../pages/items/file-panel/file-panel-container";
 import { Controller } from "react-hook-form";
 export enum FieldType {
   date = "date",

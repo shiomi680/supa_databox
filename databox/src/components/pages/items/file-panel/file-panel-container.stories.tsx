@@ -1,4 +1,4 @@
-import { ItemFilesPanel } from "./file-panel-component";
+import { ItemFilesPanel } from "./file-panel-container";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof ItemFilesPanel> = {
