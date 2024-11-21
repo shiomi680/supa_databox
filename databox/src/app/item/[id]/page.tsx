@@ -1,6 +1,6 @@
 "use client";
-import { ItemPage } from "@/components/pages/items/item-page";
+import { ItemContentPage } from "@/components/pages/items/item-content-page";
 
 export default function Item({ params }: { params: { id: string } }) {
-  return <ItemPage revision_id={params.id} />;
+  return <ItemContentPage revision_id={params.id} />;
 }

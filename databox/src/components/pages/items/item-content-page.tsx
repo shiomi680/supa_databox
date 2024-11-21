@@ -1,8 +1,5 @@
-import { SidebarComponent } from "@/components/layouts/menu-drawer/menu-sidebar";
-import { ItemMenu } from "./item-menu/item-menu";
 import { useEffect, useState } from "react";
 import {
-  fetchItems,
   fetchItemWithRevision,
   ItemCreate,
   createItem,
@@ -18,19 +15,14 @@ type ItemPageProps = {
   revision_id?: string;
 };
 
-export function ItemPage({ revision_id }: ItemPageProps) {
+export function ItemContentPage({ revision_id }: ItemPageProps) {
   const router = useRouter();
-  //サイドバー
-  const [items, setItems] = useState<Item[]>([]);
   //メインコンテンツ
   const [item, setItem] = useState<Item | undefined>(undefined);
   //初期化
   useEffect(() => {
     //サイドバーの初期化
-    const loadItems = async () => {
-      const fetchedItems = await fetchItems();
-      setItems(fetchedItems);
-    };
+
     //メインコンテンツの初期化
     const loadItem = async () => {
       if (revision_id) {
@@ -40,7 +32,6 @@ export function ItemPage({ revision_id }: ItemPageProps) {
         }
       }
     };
-    loadItems();
     loadItem();
   }, [revision_id]);
 
@@ -97,10 +88,7 @@ export function ItemPage({ revision_id }: ItemPageProps) {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <SidebarComponent title="Item Page" footer="Footer">
-        <ItemMenu items={items} />
-      </SidebarComponent>
+    <div>
       {(revision_id && item) || (!revision_id && !item) ? (
         <ItemContent
           item={item}

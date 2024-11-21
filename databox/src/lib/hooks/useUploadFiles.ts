@@ -19,7 +19,8 @@ export function useItemFiles(files: FileEntity[] = []) {
     );
 
     const filteredRtn = rtn.filter((file) => file !== null);
-    setUploadedFiles(filteredRtn);
+    const newFiles = [...uploadedFilesInternal, ...filteredRtn];
+    setUploadedFiles(newFiles);
   };
   const deleteFile = async (fileId: string) => {
     setUploadedFiles(uploadedFilesInternal.filter((f) => f.Id !== fileId));

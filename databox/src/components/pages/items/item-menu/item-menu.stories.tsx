@@ -13,7 +13,9 @@ export const Default: Story = {
   args: {
     items: [
       {
-        Id: 1,
+        ItemId: "1",
+        RevisionId: "1",
+        NewestRevisionId: "1",
         Name: "Item 1",
         ModelNumber: "1234567890",
         ItemName: "Item 1",
@@ -24,7 +26,9 @@ export const Default: Story = {
         Tags: [],
       } as Item,
       {
-        Id: 2,
+        ItemId: "2",
+        RevisionId: "2",
+        NewestRevisionId: "2",
         Name: "Item 2",
         ModelNumber: "1234567890",
         ItemName: "Item 2",
