@@ -21,7 +21,7 @@ export const GeneralFormTextField: React.FC<GeneralFormTextFieldProps> = ({
         name={name}
         type={type}
         placeholder={title ? title : name}
-        ref={register(name)}
+        register={register}
       />
     </div>
   );
