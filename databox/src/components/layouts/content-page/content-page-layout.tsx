@@ -1,5 +1,5 @@
 import { AddToast } from "@/components/features/add-toast/add-toast";
-
+import { Card, CardContent } from "@/components/ui/card";
 export const ContentPageLayout = ({
   children,
 }: {
@@ -13,7 +13,21 @@ export const ContentRevisionLayout = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <div style={{ marginBottom: "20px" }}>{children}</div>;
+  return <div style={{ marginBottom: "40px" }}>{children}</div>;
+};
+
+export const ContentFormLayout = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  return (
+    <Card style={{ marginTop: "20px" }}>
+      <div style={{ padding: "20px" }}>
+        <CardContent>{children}</CardContent>
+      </div>
+    </Card>
+  );
 };
 
 export const ContentFileLayout = ({
@@ -21,7 +35,7 @@ export const ContentFileLayout = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <div style={{ marginTop: "20px" }}>{children}</div>;
+  return <div style={{ margin: "20px 0" }}>{children}</div>;
 };
 
 export const ContentSubmitLayout = ({

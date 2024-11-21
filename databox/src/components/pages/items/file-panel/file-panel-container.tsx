@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FilePanel } from "@/components/features/general-form/general-field/file-component/file-panel/file-panel";
+import { FilePanel } from "@/components/features/file-component/file-panel/file-panel";
 import { useItemFiles } from "@/lib/hooks/useUploadFiles";
 import { FileEntity } from "@/lib/crud/file-data";
 

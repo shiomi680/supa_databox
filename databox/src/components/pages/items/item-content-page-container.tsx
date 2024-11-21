@@ -10,12 +10,12 @@ import {
 import { ItemContent, ItemFormValues } from "./item-content/item-content";
 import { useRouter } from "next/navigation";
 import { Revision } from "@/lib/crud/revision";
-
+import { ItemContentPage } from "./item-content-page";
 type ItemPageProps = {
   revision_id?: string;
 };
 
-export function ItemContentPage({ revision_id }: ItemPageProps) {
+export function ItemContentPageContainer({ revision_id }: ItemPageProps) {
   const router = useRouter();
   //メインコンテンツ
   const [item, setItem] = useState<Item | undefined>(undefined);
@@ -88,16 +88,11 @@ export function ItemContentPage({ revision_id }: ItemPageProps) {
   };
 
   return (
-    <div>
-      {(revision_id && item) || (!revision_id && !item) ? (
-        <ItemContent
-          item={item}
-          onSubmit={onSubmit}
-          onChangeRevision={onChangeRevision}
-        />
-      ) : (
-        <></>
-      )}
-    </div>
+    <ItemContentPage
+      revision_id={revision_id}
+      item={item}
+      onSubmit={onSubmit}
+      onChangeRevision={onChangeRevision}
+    />
   );
 }

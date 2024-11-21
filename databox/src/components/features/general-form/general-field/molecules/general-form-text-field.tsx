@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { InputWithLabel } from "@/components/features/input-with-label/input-with-label";
 
 type GeneralFormTextFieldProps = {
   name: string;
@@ -15,11 +16,12 @@ export const GeneralFormTextField: React.FC<GeneralFormTextFieldProps> = ({
 }) => {
   return (
     <div key={name}>
-      <Input
+      <InputWithLabel
+        label={title ? title : name}
         name={name}
         type={type}
         placeholder={title ? title : name}
-        {...register(name)}
+        ref={register(name)}
       />
     </div>
   );

@@ -10,6 +10,7 @@ import {
   ContentRevisionLayout,
   ContentFileLayout,
   ContentSubmitLayout,
+  ContentFormLayout,
 } from "@/components/layouts/content-page/content-page-layout";
 import { GeneralForm } from "@/components/features/general-form/general-form";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import { supabase } from "@/lib/supabase/supabase";
 import { FileEntity } from "@/lib/crud/file-data";
 import { ItemFilesPanel } from "../file-panel/file-panel-container";
 import { Controller } from "react-hook-form";
+import { Card } from "@/components/ui/card";
 
 //Id: number;
 // ModelNumber: string;
@@ -50,21 +52,22 @@ const fieldParams = [
     name: "ItemDescription",
     title: "ItemDescription",
     type: FieldType.text,
+    rows: 3,
     gridSize: 12,
   },
   {
     name: "Cost",
     title: "Cost",
     type: FieldType.number,
-    gridSize: 12,
+    gridSize: 6,
   },
   {
     name: "SalePrice",
     title: "SalePrice",
     type: FieldType.number,
-    gridSize: 12,
+    gridSize: 6,
   },
-];
+] as FieldParam[];
 
 export type ItemFormValues = {
   ModelNumber: string;
@@ -143,20 +146,26 @@ export function ItemContent({
           onChange={onChangeRevision}
         />
       </ContentRevisionLayout>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <GeneralForm
-          register={register}
-          control={control}
-          fieldParams={fieldParams}
-        />
-        <Controller
-          name={"Files"}
-          control={control}
-          render={({ field }) => <ItemFilesPanel {...field} />}
-        />
+      <ContentFormLayout>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <GeneralForm
+            register={register}
+            control={control}
+            fieldParams={fieldParams}
+          />
+          <ContentFileLayout>
+            <Controller
+              name={"Files"}
+              control={control}
+              render={({ field }) => <ItemFilesPanel {...field} />}
+            />
+          </ContentFileLayout>
 
-        <Button type="submit">Submit</Button>
-      </form>
+          {/* <TagPanel /> */}
+
+          <Button type="submit">Submit</Button>
+        </form>
+      </ContentFormLayout>
     </ContentPageLayout>
   );
 }

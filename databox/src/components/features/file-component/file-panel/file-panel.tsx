@@ -16,7 +16,6 @@ export const FilePanel: React.FC<FilePanelProps> = ({
   onDelete,
   onDropFiles,
 }: FilePanelProps) => {
-  // New function to handle file drop
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const droppedFiles = Array.from(event.dataTransfer.files);
@@ -25,14 +24,18 @@ export const FilePanel: React.FC<FilePanelProps> = ({
     }
   };
 
-  // New function to allow dropping
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
   return (
-    <div onDrop={handleDrop} onDragOver={handleDragOver}>
+    <div
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      className="drop-area"
+      style={{ minHeight: "200px", border: "2px dashed #ccc" }}
+    >
       {files.length === 0 ? (
-        <div className="drop-area">ファイルをここにドロップしてください</div>
+        <div>ファイルをここにドロップしてください</div>
       ) : (
         files.map((file) => (
           <FileRow

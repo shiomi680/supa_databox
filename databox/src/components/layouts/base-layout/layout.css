@@ -1,0 +1,17 @@
+/* databox/src/components/layout/layout.css */
+.layout {
+    max-width: 1200px; /* Set a maximum width for the layout */
+    margin: 0 auto; /* Center the layout */
+    padding: 0 20px; /* Add padding to the sides */
+  }
+  
+  .layout-header,
+  .layout-footer {
+    background-color: #f8f9fa; /* Light background for header and footer */
+    padding: 10px 0; /* Padding for header and footer */
+    text-align: center; /* Center text */
+  }
+  
+  .layout-main {
+    padding: 20px 0; /* Padding for the main content area */
+  }
