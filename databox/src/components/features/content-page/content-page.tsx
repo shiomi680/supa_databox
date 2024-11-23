@@ -14,7 +14,7 @@ import {
   ContentFileLayout,
   ContentSubmitLayout,
   ContentPageLayout,
-} from "@/components/layouts/menu-drawer/content-page-layout";
+} from "@/components/layouts/content-page/content-page-layout";
 
 export type { FieldParam };
 export { FieldType };
@@ -34,15 +34,6 @@ export const ContentPage = ({
   return (
     <ContentPageLayout>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ContentRevisionLayout>
-          <></>
-          {/* <RevisionSelector
-            revisions={revisions}
-            onRevisionChange={handleRevisionChange}
-            initialSelectId={revisionId}
-          /> */}
-        </ContentRevisionLayout>
-
         <GeneralForm
           register={register}
           control={control}

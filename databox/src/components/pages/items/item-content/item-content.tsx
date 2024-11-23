@@ -107,7 +107,7 @@ function itemToFormValues(values: Item | undefined): ItemFormValues {
 //   }));
 // }
 
-type ItemContentProps = {
+export type ItemContentProps = {
   item?: Item;
   onSubmit: (data: any) => void;
   onChangeRevision: (revision: Revision) => void;

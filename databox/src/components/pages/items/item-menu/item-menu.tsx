@@ -5,7 +5,7 @@ import { ColumnsDef } from "@/components/features/item-select/item-select";
 
 const ITEM_PAGE_URL = "/item";
 
-type ItemMenuProps = {
+export type ItemMenuProps = {
   items: Item[];
 };
 

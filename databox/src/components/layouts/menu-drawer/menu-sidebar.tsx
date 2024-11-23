@@ -4,6 +4,8 @@ import {
   SidebarHeader,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 type SidebarProps = {
@@ -16,11 +18,13 @@ export const SidebarComponent = ({ children, footer, title }: SidebarProps) => {
   return (
     <SidebarProvider>
       <Sidebar>
-        <SidebarHeader>
-          <h1>{title}</h1>
-        </SidebarHeader>
-        <SidebarContent>{children}</SidebarContent>
-        <SidebarFooter>{footer}</SidebarFooter>
+        <SidebarGroup>
+          <SidebarHeader>
+            <h1>{title}</h1>
+          </SidebarHeader>
+          <SidebarContent>{children}</SidebarContent>
+          <SidebarFooter>{footer}</SidebarFooter>
+        </SidebarGroup>
       </Sidebar>
     </SidebarProvider>
   );

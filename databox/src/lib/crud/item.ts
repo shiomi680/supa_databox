@@ -1,6 +1,8 @@
 import { FileEntity } from "./file-data";
 import { supabase } from "@/lib/supabase/supabase";
 import { Revision } from "./revision";
+
+export type { Revision };
 // Define the Item type
 export type Item = {
   ItemId: string;

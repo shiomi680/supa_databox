@@ -1,6 +1,6 @@
 "use client";
-import { ItemSelectPage } from "@/components/pages/items/item-select-page";
+import { ItemPageContainer } from "@/components/pages/items/item-page-container";
 
 export default function Item() {
-  return <ItemSelectPage />;
+  return <ItemPageContainer />;
 }

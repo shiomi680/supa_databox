@@ -1,6 +1,6 @@
 "use client";
-import { ItemContentPageContainer } from "@/components/pages/items/item-content-page-container";
+import { ItemPageContainer } from "@/components/pages/items/item-page-container";
 
 export default function Item({ params }: { params: { id: string } }) {
-  return <ItemContentPageContainer revision_id={params.id} />;
+  return <ItemPageContainer revision_id={params.id} />;
 }

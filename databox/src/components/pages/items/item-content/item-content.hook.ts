@@ -1,21 +1,17 @@
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
-  fetchItemWithRevision,
-  ItemCreate,
-  createItem,
-  ItemRevisionCreate,
   Item,
+  ItemCreate,
+  ItemRevisionCreate,
+  Revision,
+  fetchItemWithRevision,
   addItemRevision,
+  createItem,
 } from "@/lib/crud/item";
-import { ItemContent, ItemFormValues } from "./item-content/item-content";
-import { useRouter } from "next/navigation";
-import { Revision } from "@/lib/crud/revision";
-import { ItemContentPage } from "./item-content-page";
-type ItemPageProps = {
-  revision_id?: string;
-};
+import { ItemFormValues, ItemContentProps } from "./item-content";
 
-export function ItemContentPageContainer({ revision_id }: ItemPageProps) {
+export const useItemContent = (revision_id?: string) => {
   const router = useRouter();
   //メインコンテンツ
   const [item, setItem] = useState<Item | undefined>(undefined);
@@ -87,12 +83,11 @@ export function ItemContentPageContainer({ revision_id }: ItemPageProps) {
     router.push(`/item/${revision.Id}`);
   };
 
-  return (
-    <ItemContentPage
-      revision_id={revision_id}
-      item={item}
-      onSubmit={onSubmit}
-      onChangeRevision={onChangeRevision}
-    />
-  );
-}
+  const props: ItemContentProps = {
+    item,
+    onSubmit,
+    onChangeRevision,
+  };
+
+  return { props };
+};

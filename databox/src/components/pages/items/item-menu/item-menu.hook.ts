@@ -1,8 +1,7 @@
-import { ItemMenu } from "./item-menu/item-menu";
 import { useEffect, useState } from "react";
 import { fetchItems, Item } from "@/lib/crud/item";
-
-export function ItemSelectPage() {
+import { ItemMenuProps } from "./item-menu";
+export const useItemMenu = () => {
   //サイドバー
   const [items, setItems] = useState<Item[]>([]);
   //初期化
@@ -15,5 +14,9 @@ export function ItemSelectPage() {
     loadItems();
   }, []);
 
-  return <ItemMenu items={items} />;
-}
+  const props: ItemMenuProps = {
+    items,
+  };
+
+  return { props };
+};
