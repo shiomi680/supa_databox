@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Item,
   ItemCreate,
@@ -15,21 +16,36 @@ export const useItemContent = (revision_id?: string) => {
   const router = useRouter();
   //メインコンテンツ
   const [item, setItem] = useState<Item | undefined>(undefined);
+  const revisions = item?.Revisions ?? [];
+  const revision = revisions.find((r) => r.Id === item?.RevisionId);
+
+  const { register, control, handleSubmit, reset } = useForm<ItemFormValues>();
+
+  const toItemFormValues = (item: Item) => {
+    return {
+      ModelNumber: item.ModelNumber || "-",
+      ItemName: item.ItemName || "-",
+      ItemDescription: item.ItemDescription || "-",
+      Cost: item.Cost || 0,
+      SalePrice: item.SalePrice || 0,
+      Files: item.Files || [],
+    };
+  };
+
   //初期化
   useEffect(() => {
-    //サイドバーの初期化
-
     //メインコンテンツの初期化
     const loadItem = async () => {
       if (revision_id) {
         const fetchedItem = await fetchItemWithRevision(revision_id);
         if (fetchedItem) {
           setItem(fetchedItem);
+          reset(toItemFormValues(fetchedItem));
         }
       }
     };
     loadItem();
-  }, [revision_id]);
+  }, [revision_id, reset]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   //メインコンテンツのデータ更新
   const onSubmit = async (data: ItemFormValues) => {
@@ -84,9 +100,13 @@ export const useItemContent = (revision_id?: string) => {
   };
 
   const props: ItemContentProps = {
-    item,
+    revision,
+    revisions,
     onSubmit,
     onChangeRevision,
+    register,
+    control,
+    handleSubmit,
   };
 
   return { props };
