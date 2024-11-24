@@ -1,6 +1,4 @@
-import { Item } from "@/lib/crud/item";
 import {
-  ContentPage,
   FieldParam,
   FieldType,
 } from "@/components/features/content-page/content-page";
@@ -9,32 +7,17 @@ import {
   ContentPageLayout,
   ContentRevisionLayout,
   ContentFileLayout,
-  ContentSubmitLayout,
   ContentFormLayout,
 } from "@/components/layouts/content-page/content-page-layout";
 import { GeneralForm } from "@/components/features/general-form/general-form";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { Control, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { RevisionSelect } from "@/components/features/revision-select/revision-select";
-import { useState } from "react";
 import { Revision } from "@/lib/crud/revision";
-import { useMemo, useEffect } from "react";
-import { uploadFile } from "@/lib/crud/storage";
-import { supabase } from "@/lib/supabase/supabase";
 import { FileEntity } from "@/lib/crud/file-data";
 import { ItemFilesPanel } from "../file-panel/file-panel-container";
 import { Controller } from "react-hook-form";
-import { Card } from "@/components/ui/card";
 
-//Id: number;
-// ModelNumber: string;
-// ItemName: string;
-// ItemDescription: string;
-// Cost: number;
-// SalePrice: number;
-// Files: FileData[];
-// Tags: string[];
-// Revisions?: ItemRevision[];
 const fieldParams = [
   {
     name: "ModelNumber",
@@ -77,66 +60,31 @@ export type ItemFormValues = {
   SalePrice: number;
   Files: FileEntity[];
 };
-// function formValuesToItem(values: ItemFormValues): Item {
-//   return {
-//     ModelNumber: values.ModelNumber,
-//     ItemName: values.ItemName,
-//     ItemDescription: values.ItemDescription,
-//     Cost: values.Cost,
-//     SalePrice: values.SalePrice,
-//     Files: [],
-//     Tags: [],
-//   };
-// }
-function itemToFormValues(values: Item | undefined): ItemFormValues {
-  return {
-    ModelNumber: values?.ModelNumber ?? "-",
-    ItemName: values?.ItemName ?? "-",
-    ItemDescription: values?.ItemDescription ?? "-",
-    Cost: values?.Cost ?? 1,
-    SalePrice: values?.SalePrice ?? 0,
-    Files: values?.Files ?? [],
-  };
-}
-// function fileEntityToFileType(values: FileEntity[]): FileType[] {
-//   return values.map((value) => ({
-//     Id: value.Id,
-//     FileName: value.FileName,
-//     Url: value.Url,
-//     Visible: value.Visible,
-//   }));
-// }
 
 export type ItemContentProps = {
-  item?: Item;
   onSubmit: (data: any) => void;
   onChangeRevision: (revision: Revision) => void;
+  register: UseFormRegister<ItemFormValues>;
+  control: Control<ItemFormValues>;
+  handleSubmit: UseFormHandleSubmit<ItemFormValues>;
+  revision?: Revision;
+  revisions: Revision[];
 };
 
 export function ItemContent({
-  item,
+  revision,
+  revisions,
   onSubmit,
   onChangeRevision,
+  register,
+  control,
+  handleSubmit,
 }: ItemContentProps) {
-  const defaultValues = useMemo(
-    () => ({
-      ModelNumber: item?.ModelNumber || "-",
-      ItemName: item?.ItemName || "",
-      ItemDescription: item?.ItemDescription || "",
-      Cost: item?.Cost || 0,
-      SalePrice: item?.SalePrice || 0,
-      Files: item?.Files || [],
-    }),
-    [item]
-  );
-  useEffect(() => {
-    console.log(item);
-  }, [item]);
-
-  const { register, handleSubmit, control } = useForm({ defaultValues });
-  const revisions = item?.Revisions ?? [];
-  const revision = revisions.find((r) => r.Id === item?.RevisionId);
-
+  // const revisions = item?.Revisions ?? [];
+  // const revision = revisions.find((r) => r.Id === item?.RevisionId);
+  if (!revision) {
+    return null;
+  }
   return (
     <ContentPageLayout>
       <ContentRevisionLayout>
@@ -160,8 +108,6 @@ export function ItemContent({
               render={({ field }) => <ItemFilesPanel {...field} />}
             />
           </ContentFileLayout>
-
-          {/* <TagPanel /> */}
 
           <Button type="submit">Submit</Button>
         </form>
