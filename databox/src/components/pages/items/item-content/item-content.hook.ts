@@ -48,7 +48,7 @@ export const useItemContent = (revision_id?: string) => {
   }, [revision_id, reset]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   //メインコンテンツのデータ更新
-  const onSubmit = async (data: ItemFormValues) => {
+  const _onSubmit = async (data: ItemFormValues) => {
     console.log(data);
     if (item) {
       try {
@@ -99,6 +99,8 @@ export const useItemContent = (revision_id?: string) => {
     router.push(`/item/${revision.Id}`);
   };
 
+  const onSubmit = handleSubmit(_onSubmit);
+
   const props: ItemContentProps = {
     revision,
     revisions,
@@ -106,7 +108,6 @@ export const useItemContent = (revision_id?: string) => {
     onChangeRevision,
     register,
     control,
-    handleSubmit,
   };
 
   return { props };
