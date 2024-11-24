@@ -11,7 +11,7 @@ import {
 } from "@/components/layouts/content-page/content-page-layout";
 import { GeneralForm } from "@/components/features/general-form/general-form";
 import { Button } from "@/components/ui/button";
-import { Control, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { Control, UseFormRegister } from "react-hook-form";
 import { RevisionSelect } from "@/components/features/revision-select/revision-select";
 import { Revision } from "@/lib/crud/revision";
 import { FileEntity } from "@/lib/crud/file-data";
@@ -66,7 +66,6 @@ export type ItemContentProps = {
   onChangeRevision: (revision: Revision) => void;
   register: UseFormRegister<ItemFormValues>;
   control: Control<ItemFormValues>;
-  handleSubmit: UseFormHandleSubmit<ItemFormValues>;
   revision?: Revision;
   revisions: Revision[];
 };
@@ -78,13 +77,7 @@ export function ItemContent({
   onChangeRevision,
   register,
   control,
-  handleSubmit,
 }: ItemContentProps) {
-  // const revisions = item?.Revisions ?? [];
-  // const revision = revisions.find((r) => r.Id === item?.RevisionId);
-  if (!revision) {
-    return null;
-  }
   return (
     <ContentPageLayout>
       <ContentRevisionLayout>
@@ -95,7 +88,7 @@ export function ItemContent({
         />
       </ContentRevisionLayout>
       <ContentFormLayout>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <GeneralForm
             register={register}
             control={control}
