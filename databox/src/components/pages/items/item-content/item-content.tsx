@@ -65,7 +65,7 @@ export type ItemContentProps = {
   onSubmit: (data: any) => void;
   onChangeRevision: (revision: Revision) => void;
   register: UseFormRegister<ItemFormValues>;
-  control: Control<ItemFormValues>;
+  control?: Control<ItemFormValues>;
   revision?: Revision;
   revisions: Revision[];
 };
