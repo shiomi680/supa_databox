@@ -1,6 +1,7 @@
 export type Share = {
   Info: ShareInfo;
   Evaluation: MyEvaluation;
+  PriceRelation: PriceRelation;
   Documents: Document[];
   Links: ShareLink[];
   Content: ShareContent;

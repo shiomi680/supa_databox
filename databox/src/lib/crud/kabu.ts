@@ -81,7 +81,7 @@ export async function fetchShare(share_id: string) {
           business,
           my_point,
           my_current_judgment
-        ),
+        )
       `
     )
     .eq("id", share_id)

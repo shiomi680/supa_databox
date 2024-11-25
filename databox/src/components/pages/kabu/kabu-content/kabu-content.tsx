@@ -9,8 +9,10 @@ import {
 } from "@/components/layouts/content-page/content-page-layout";
 import { GeneralForm } from "@/components/features/general-form/general-form";
 import { Button } from "@/components/ui/button";
-import { Control, UseFormRegister } from "react-hook-form";
+import { Control, UseFormRegister, useWatch } from "react-hook-form";
 import { ShareInfoForm } from "./share-info-form/share-info-form";
+import { SwitchForm } from "./switch-form/switch-form";
+import { InfoItem } from "@/components/features/info-item/info-item";
 
 const fieldParams = [
   {
@@ -107,11 +109,19 @@ type ShareInfoFormValues = {
   Sector17Code: string;
   MarketCode: string;
 };
+type PriceRelationFormValues = {
+  StockCapitalization: number;
+  StockPriceDate: string;
+  PER: number;
+  PBR: number;
+};
 export type KabuFormValues = {
   Code: string;
   Name: string;
   EnglishName: string;
   Info: ShareInfoFormValues;
+  PriceRelation: PriceRelationFormValues;
+
   // Swot: Swot;
 };
 
@@ -122,6 +132,7 @@ export type KabuContentProps = {
 };
 
 export function KabuContent({ register, control, onSubmit }: KabuContentProps) {
+  const formValues = useWatch<KabuFormValues>({ control });
   return (
     <ContentPageLayout>
       <ContentFormLayout>
@@ -136,7 +147,41 @@ export function KabuContent({ register, control, onSubmit }: KabuContentProps) {
             control={control}
             fieldParams={ShareInfoParams}
           /> */}
-          <ShareInfoForm register={register} control={control} />
+          <SwitchForm
+            title="基本情報"
+            fieldParams={ShareInfoParams}
+            register={register}
+            control={control}
+          >
+            <div>
+              <InfoItem title="name" value={formValues.Info?.Name} />
+            </div>
+          </SwitchForm>
+
+          <SwitchForm
+            title="Price"
+            fieldParams={PriceRelationParams}
+            register={register}
+            control={control}
+          >
+            <div>
+              <InfoItem
+                title="時価総額"
+                value={formValues.PriceRelation?.StockCapitalization?.toString()}
+              />
+
+              <InfoItem
+                title="PER"
+                value={formValues.PriceRelation?.PER?.toString()}
+              />
+              <InfoItem
+                title="PBR"
+                value={formValues.PriceRelation?.PBR?.toString()}
+              />
+            </div>
+          </SwitchForm>
+
+          {/* <ShareInfoForm register={register} control={control} /> */}
           {/* <GeneralForm
             register={register}
             control={control}

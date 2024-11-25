@@ -1,16 +1,17 @@
 import { StoryObj, Meta } from "@storybook/react";
-import { KabuContent, KabuFormValues } from "./kabu-content";
+import { ShareInfoForm } from "./share-info-form";
 import { useForm, FormProvider } from "react-hook-form";
+import { KabuFormValues } from "../kabu-content";
 
-const meta: Meta<typeof KabuContent> = {
-  component: KabuContent,
+const meta: Meta<typeof ShareInfoForm> = {
+  component: ShareInfoForm,
 };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => {
+  render: (args) => {
     const methods = useForm<KabuFormValues>({
       defaultValues: {
         Code: "1234",
@@ -28,11 +29,7 @@ export const Default: Story = {
     }); // Initialize the form
     return (
       <FormProvider {...methods}>
-        <KabuContent
-          register={methods.register}
-          control={methods.control}
-          onSubmit={(data) => console.log(data)} // Define onSubmit
-        />
+        <ShareInfoForm register={methods.register} control={methods.control} />
       </FormProvider>
     );
   },
