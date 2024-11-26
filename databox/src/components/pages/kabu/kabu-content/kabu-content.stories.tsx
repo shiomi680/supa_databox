@@ -24,6 +24,12 @@ export const Default: Story = {
           Sector17Code: "1234",
           MarketCode: "1234",
         },
+        Documents: [
+          {
+            Id: "1",
+            Document: "# test \n - xxxx \n - yyyy \n  - zzzz",
+          },
+        ],
       },
     }); // Initialize the form
     return (

@@ -13,7 +13,8 @@ import { Control, UseFormRegister, useWatch } from "react-hook-form";
 import { ShareInfoForm } from "./share-info-form/share-info-form";
 import { SwitchForm } from "./switch-form/switch-form";
 import { InfoItem } from "@/components/features/info-item/info-item";
-
+import ReactMarkdown from "react-markdown";
+import { Document } from "@/lib/types/kabu";
 const fieldParams = [
   {
     name: "Code",
@@ -121,6 +122,7 @@ export type KabuFormValues = {
   EnglishName: string;
   Info: ShareInfoFormValues;
   PriceRelation: PriceRelationFormValues;
+  Documents: Document[];
 
   // Swot: Swot;
 };
@@ -157,7 +159,6 @@ export function KabuContent({ register, control, onSubmit }: KabuContentProps) {
               <InfoItem title="name" value={formValues.Info?.Name} />
             </div>
           </SwitchForm>
-
           <SwitchForm
             title="Price"
             fieldParams={PriceRelationParams}
@@ -180,7 +181,7 @@ export function KabuContent({ register, control, onSubmit }: KabuContentProps) {
               />
             </div>
           </SwitchForm>
-
+          <ReactMarkdown>{formValues.Documents?.[0]?.Document}</ReactMarkdown>
           {/* <ShareInfoForm register={register} control={control} /> */}
           {/* <GeneralForm
             register={register}

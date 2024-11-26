@@ -2,12 +2,12 @@ import { KabuPage } from "./kabu-page";
 import { useKabuMenu } from "./kabu-menu/kabu-menu.hook";
 import { useKabuContent } from "./kabu-content/kabu-content.hook";
 type KabuPageContainerProps = {
-  share_id?: string;
+  id?: string;
 };
 
-export const KabuPageContainer = ({ share_id }: KabuPageContainerProps) => {
+export const KabuPageContainer = ({ id }: KabuPageContainerProps) => {
   const { props: kabuMenuProps } = useKabuMenu();
-  const { props: kabuContentProps } = useKabuContent(share_id);
+  const { props: kabuContentProps } = useKabuContent(id);
   return (
     <KabuPage
       kabuMenuProps={kabuMenuProps}
